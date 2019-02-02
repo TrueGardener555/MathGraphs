@@ -1,0 +1,70 @@
+<!Doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Représenter des fonctions mathématiques</title>
+	<link href="mathGraphs.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<div id='global'>
+		<h1>Représentation de fonctions mathématiques</h1>
+		<div id="contenu">
+			
+			<section id="section_form">
+				<h2>Définissez votre fonction</h2>
+					<div class="btFunction">
+						<button type="button" value="0">0</button>
+						<button type="button" value="1">1</button>
+						<button type="button" value="2">2</button>
+						<button type="button" value="3">3</button>
+						<button type="button" value="4">4</button>
+						<button type="button" value="5">5</button>
+						<button type="button" value="6">6</button>
+						<button type="button" value="7">7</button>
+						<button type="button" value="8">8</button>
+						<button type="button" value="9">9</button>
+						<button type="button" value="+">+</button>
+						<button type="button" value="-">-</button>
+						<button type="button" value="*">*</button>
+						<button type="button" value="/">/</button>
+						<button type="button" value="(">(</button>
+						<button type="button" value=")">)</button>
+						<button type="button" value="x">x</button>
+						<button type="button" value="sqrt">&radic;(x)</button>
+						<button type="button" value="exp">e<sup>x</sup></button>
+						<button type="button" value="log">ln(x)</button>
+						<button type="button" value="log1p">ln(1+x)</button>
+						<button type="button" value="log10">log<sub>10</sub>(x)</button>
+						<button type="button" value="log2">log<sub>2</sub>(x)</button>
+						<button type="button" value="pow">x<sup>n</sup></button>
+						<button type="button" value="sin">sin(x)</button>
+						<button type="button" value="cos">cos(x)</button>
+						<button type="button" value="tan">tan(x)</button>
+					</div>	
+					<div class="form_box">
+						<form id="form" >
+							<label for="fonction">Fonction</label>
+							<input id="fonction" name="fonction" type="text" readonly="readonly">
+							<label for="nom">Nom</label>
+							<input id="nom" name="nom" type="text">
+							<label for="couleur">Couleur</label>
+							<input id="couleur" name="couleur" type="color">	
+						</form>
+					<input id="draw" type="button" value="Tracer" >
+					<input id="add" type="button" value="Nouvelle fonction" >
+					<input id="reset" type="button" value="Effacer Tout" >
+					<input id="save" type="button" value="Enregistrer" >
+					</div>
+					<div id="liste_fonctions">
+						<h2>S&eacute;lectionnez la fonction &agrave; suivre</h2>
+						
+					</div>
+			</section>
+			<canvas id="canvas" width="800px" height="800px"></canvas>
+		</div>
+	</div>
+	<script src="definedFunctions.js" text="text/javascript"></script>
+	<script src="scriptMathGraphs.js" text="text/javascript"></script>
+</body>
+
+</html>

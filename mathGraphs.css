@@ -1,0 +1,128 @@
+html, body{
+	font-family: Arial, sans-serif;
+	font-size:1.2em;
+	background-color: #EEEEEE;
+	color:#777;
+}
+h1{
+	text-align:center;
+}
+h2, label{
+	font-size: .8em;
+}
+h2{
+	text-align: center;
+}
+#global{
+	width:75%;
+	margin: 0 auto;
+}
+#contenu{
+	display:flex;
+	flex-direction: row;
+	justify-content: space-around;
+	
+}
+
+#section_form, #canvas{
+	border: 2px solid #696969;
+	border-radius:10px;
+}
+#section_form{
+	width:20%;
+}
+
+.form_box{
+	width:100%;
+	margin:3% 0;
+	text-align:center;
+}
+#section_form, #form{
+	display:flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+}
+#section_form{
+	padding: 0 1%;
+}
+#liste_fonctions{
+	height:35%;
+	top:1%;
+	border-top: 3px dotted #696969;
+}
+
+input, select{
+	width:80%;
+	margin:2% 0;
+}
+button, input[type="button"]{
+	box-shadow: 3px 4px 4px grey;
+	background-color: #FFF;
+	border-radius: 3px;
+	height:30px;
+}
+input[readonly="readonly"]{
+	background-color: #ccc;
+	border:1px solid #ccc;
+	color:#666;
+}
+button{
+	width:60px;
+}
+input[type="button"]{
+	width:50%;
+}
+button:hover, input[type="button"]:hover{
+	background-color: #FAFAFA;
+	box-shadow: 3px 4px 4px rgba(0,0,0,.6);
+	cursor: pointer;
+}
+
+a{
+	display:block;
+	font-size:12px;
+}
+a img{
+	display: none;
+}
+
+/**------- Custom radio button (src= w3schools.com) ----------**/
+.custom-radio {
+	
+  display: block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+input[type="radio"] {
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+.custom-radio span.checkmark{
+	display:block;
+	box-shadow: 2px 2px 2px grey;
+	background-color: #fff;
+	width:90%;
+	padding-left: 10%;
+ 	margin-bottom: 2%;
+}
+/* On mouse-over, add a grey background color */
+.custom-radio:hover input ~ .checkmark {
+  box-shadow: 4px 4px 4px #696969;
+  background-color: #eee;
+}
+
+/* When the checkbox is checked, add a grey background */
+.custom-radio input:checked ~ .checkmark {
+   border: 3px groove #778899;
+   box-shadow: none;
+}
+
+
