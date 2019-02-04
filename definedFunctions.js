@@ -176,3 +176,22 @@ function checkBracket(str){
 	else
 		return 0;
 }
+
+/**
+ * filter for Math object, add "Math." before the expression if it is a math function
+ * @param fun string the expression to filter 
+ * @return string
+ */
+function withMath(fun){
+    let defFun=["pow", "exp", "log", "log", "log10", "log2", "log1p", "sqrt", "tan", "cos", "sin"];
+    let search=fun.split("(")[0];
+    let i=0, nb=defFun.length, toReturn=fun;
+    while(i<nb && defFun[i]!==search){
+        i++;
+    }
+    console.log(nb+" "+i);
+    if(i<nb){
+        toReturn="Math."+fun;
+    }
+    return toReturn;
+}

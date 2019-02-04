@@ -148,7 +148,7 @@ canvas.addEventListener("mousemove", function (e) {
     if (checked !== null) {
         let func = JSON.parse(checked.value);
         let x = repere.xFromPixel(getMousePos(canvas, e).x);
-        let y = customRound(eval("Math."+func["fonction"]), NBDIGITS);
+        let y = customRound(eval(withMath(func["fonction"])), NBDIGITS);
         ctx.font = "italic " + FONTSIZE + "px serif";
         let text = "x=" + x + ", y=" + y;
         fillTextRect(0, RECTH, func["couleur"], text);
@@ -303,13 +303,13 @@ function tracerFonction(fonction) {
     //inspiré du script de Bernard Langellier http://bernard.langellier.pagesperso-orange.fr/tracer-courbe.htm
     let continuer = true;
     let x = repere.xFromPixel(0);
-    let y = eval("Math."+fonction["fonction"]);
+    let y = eval(withMath(fonction["fonction"]));
     y = repere.yToPixel(y);
     ctx.moveTo(0, y);
     let cpt = 0;
     for (i = 1; i <= repere.w; i++) {
         x = repere.xFromPixel(i)
-        y = eval("Math."+fonction["fonction"]);
+        y = eval(withMath(fonction["fonction"]));
         if (y == Infinity) {
             continuer = false;
             ctx.stroke();
