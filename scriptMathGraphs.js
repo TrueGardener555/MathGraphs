@@ -120,7 +120,12 @@ btReset.addEventListener("click", function (e) {
     ctx.clearRect(0, 0, repere.w, repere.h);
     tracerRepere();
     form.reset();
-    liste_fonctions.querySelector("h2 ~ *").remove();
+    //remove input radio object function
+    let labels=liste_fonctions.querySelectorAll("label");
+    for(let i=labels.length-1; i>=0; i--){
+        labels[i].remove();
+    }
+    //remove download link
     let a = btSave.nextSibling;
     if (a != null)
         a.remove();

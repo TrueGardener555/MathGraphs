@@ -183,15 +183,15 @@ function checkBracket(str){
  * @return string
  */
 function withMath(fun){
-    let defFun=["pow", "exp", "log", "log", "log10", "log2", "log1p", "sqrt", "tan", "cos", "sin"];
-    let search=fun.split("(")[0];
-    let i=0, nb=defFun.length, toReturn=fun;
-    while(i<nb && defFun[i]!==search){
-        i++;
-    }
-    console.log(nb+" "+i);
-    if(i<nb){
-        toReturn="Math."+fun;
-    }
+    let regexp=/pow|exp|log|log10|log2|log1p|sqrt|tan|cos|sin/g;
+    let toReturn=fun.replace(regexp, remplacer);
     return toReturn;
+}
+/**
+ * callback function for replace function
+ * @param corresp string  
+ * @return string
+ */
+function remplacer(corresp){
+	return "Math."+corresp;
 }
