@@ -1,54 +1,84 @@
 /*--------------------------------------------------------------------------*/
 /*--------------------- Object/constant Definitions ------------------------*/
 /*--------------------------------------------------------------------------*/
-const RECTW = 200;
+const RECTW = 250;
 const RECTH = 30;
 const FONTSIZE = 15;
-const NBDIGITSPIX = 3;
+const NBDIGITSPIX = 8;
 const NBDIGITS = 8;
-const PLANLENGTH = 20;
+const NB_GRAD_BASE = 20;
+const STEPS=[1,2,5];
 function Point(x, y) {
     this.x = x;
     this.y = y;
 }
 
-function Repere(context, xo, yo, scale = 20) {
+function Repere(context, xo, yo) {
     this.w = context.canvas.width;
     this.h = context.canvas.height;
 
     this.xo = xo;
     this.yo = yo;
-    this.scale = Number(scale);
+    this.scale = this.w/NB_GRAD_BASE;
+    this.step=1;
+    this.cpt=0;
+    this.zoom=1;
+    this.graduations=NB_GRAD_BASE;
 }
 /**
- * converts plan coordinates to canvas pixel coordinates
+ * convert plan coordinates to canvas pixel coordinates
  */
-Repere.prototype.convertirPoint = function (x, y) {
+ Repere.prototype.convertirPoint = function (x, y) {
     return new Point(this.xToPixel(x), this.yToPixel(y));
 }
 /**
  * convert a normal plan x to canvas pixel x
  */
-Repere.prototype.xToPixel = function (x) {
-    return customRound(this.xo + x * this.scale, NBDIGITSPIX);
+ Repere.prototype.xToPixel = function (x) {
+    return customRound(this.xo + (x/this.step) * this.scale, NBDIGITSPIX);
 }
 /**
  * convert a normal plan y to canvas pixel y
  */
-Repere.prototype.yToPixel = function (y) {
-    return customRound(this.yo - y * this.scale, NBDIGITSPIX);
+ Repere.prototype.yToPixel = function (y) {
+    return customRound((this.yo - (y/this.step) * this.scale), NBDIGITSPIX);
 }
 /**
  * convert canvas pixel x to normal plan x
  */
-Repere.prototype.xFromPixel = function (xPix) {
-    return customRound((xPix - this.xo) / this.scale, NBDIGITSPIX);
+ Repere.prototype.xFromPixel = function (xPix) {
+    return customRound(((xPix - this.xo) / this.scale)*this.step, NBDIGITSPIX);
 }
 /**
  * convert canvas pixel y to normal plan y
  */
-Repere.prototype.yFromPixel = function (yPix) {
-    return customRound(((yPix - this.yo) / this.scale) * (-1), NBDIGITSPIX);
+ Repere.prototype.yFromPixel = function (yPix) {
+    return customRound((((yPix - this.yo) / this.scale))*this.step * (-1), NBDIGITSPIX);
+}
+
+Repere.prototype.changeScale=function(sign){
+    if((this.scale!==(this.w/NB_GRAD_BASE))&&(((this.w/NB_GRAD_BASE)%this.scale===0)||(this.scale/2===(this.w/NB_GRAD_BASE)))){
+        let i=((STEPS.length+(this.cpt%STEPS.length))%STEPS.length);
+        if(sign<0){
+            this.cpt--;
+            if(i===STEPS.length-1)
+                this.zoom=this.zoom/10;
+        }
+        else{
+            this.cpt++;
+            if(i===0)
+                this.zoom=this.zoom*10;
+        }
+        //calculate the step
+        this.step=STEPS[i]*this.zoom;
+        //calculate the scale and graduations
+        this.scale=(this.w/NB_GRAD_BASE);
+        this.graduations=NB_GRAD_BASE;
+    }else{
+       this.graduations+=sign*2
+       this.scale = (this.w /this.graduations);
+   }
+
 }
 
 /*--------------------------------------------------------------------------*/
@@ -78,7 +108,7 @@ var callback = function (e) {
 //canvas
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
-var repere = new Repere(ctx, ctx.canvas.width / 2, ctx.canvas.height / 2, ctx.canvas.width / PLANLENGTH);
+var repere = new Repere(ctx, ctx.canvas.width / 2, ctx.canvas.height / 2);
 
 tracerRepere();
 
@@ -88,7 +118,7 @@ tracerRepere();
 /**
  * draw selected function on button click
  */
-btDraw.addEventListener("click", function (e) {
+ btDraw.addEventListener("click", function (e) {
     var objFonction = serialiseForm(form);
     if (checkBracket(objFonction["fonction"]) == 0) {
         tracerFonction(objFonction);
@@ -116,7 +146,7 @@ btDraw.addEventListener("click", function (e) {
 /**
  * clear all
  */
-btReset.addEventListener("click", function (e) {
+ btReset.addEventListener("click", function (e) {
     ctx.clearRect(0, 0, repere.w, repere.h);
     tracerRepere();
     form.reset();
@@ -134,20 +164,20 @@ btReset.addEventListener("click", function (e) {
 /**
  * clear the form
  */
-btAdd.addEventListener("click", function (e) {
+ btAdd.addEventListener("click", function (e) {
     form.reset();
 }, false);
 
-canvas.addEventListener("wheel", function (e) {
+ canvas.addEventListener("wheel", function (e) {
     let sign = Math.sign(e.deltaY);
     //change the scale according to the wheel move
-    repere.scale = repere.w / ((repere.w / repere.scale) + 2 * sign);
+    repere.changeScale(sign);
     majRepere();
 });
 /**
  * diplay cursor coordinates (x, y) according to the selected function
  */
-canvas.addEventListener("mousemove", function (e) {
+ canvas.addEventListener("mousemove", function (e) {
     //get the selected function
     let checked = document.querySelector("input[type='radio']:checked");
     if (checked !== null) {
@@ -164,7 +194,7 @@ canvas.addEventListener("mousemove", function (e) {
 /**
  * build function string when click on button elem
  */
-for (let i = 0; i < buttons.length; i++) {
+ for (let i = 0; i < buttons.length; i++) {
     buttons[i].addEventListener('click', function (e) {
         let filter = filterFunction(fonction.value, this.value);
         fonction.value = (filter == null) ? fonction.value : filter;
@@ -174,7 +204,7 @@ for (let i = 0; i < buttons.length; i++) {
 /**
  * save the canvas (create an anchor for downloading)
  */
-btSave.addEventListener("click", function (e) {
+ btSave.addEventListener("click", function (e) {
     let data = canvas.toDataURL();
     let url = "fonctions.png";
     let a = createDomElem({"tag": "a", "attributes": {"href": data, "alt": "Télécharger l'image", "download": ""}, "text": "Cliquez pour télécharger."});
@@ -184,15 +214,15 @@ btSave.addEventListener("click", function (e) {
 });
 
 
-/*--------------------------------------------------------------------------*/
-/*------------------------- Functions declaration---------------------------*/
-/*--------------------------------------------------------------------------*/
+ /*--------------------------------------------------------------------------*/
+ /*------------------------- Functions declaration---------------------------*/
+ /*--------------------------------------------------------------------------*/
 
 /**
  * init the canvas
  * @return Repere
  */
-function majRepere() {
+ function majRepere() {
     ctx.clearRect(0, 0, repere.w, repere.h);
     tracerRepere();
     let fChecked = null;
@@ -214,7 +244,7 @@ function majRepere() {
  * @param evt
  * @return {x:int, y:int}
  */
-function getMousePos(canvas, evt) {
+ function getMousePos(canvas, evt) {
     var rect = canvas.getBoundingClientRect();
     return {
         x: evt.clientX - rect.left,
@@ -226,7 +256,7 @@ function getMousePos(canvas, evt) {
  * write the name of the function in the top left corner
  * @param f : Object function {nom, fonction, couleur}
  */
-function writeFuncName(f) {
+ function writeFuncName(f) {
     if (f !== null) {
         let text = f["nom"] + "(x)=" + f["fonction"];
         fillTextRect(0, 0, f["couleur"], text);
@@ -238,8 +268,7 @@ function writeFuncName(f) {
  * @param repere Repere
  * @return void
  */
-function tracerRepere() {
-    console.log(repere.scale);
+ function tracerRepere() {
     ctx.beginPath();
     ctx.strokeStyle = 'rgb(255,0,0)';
     //tracer axe des abrepere.scaleisses
@@ -302,7 +331,7 @@ function tracerRepere() {
  * @param repere Repere
  * @return void
  */
-function tracerFonction(fonction) {
+ function tracerFonction(fonction) {
     ctx.beginPath();
     ctx.strokeStyle = fonction["couleur"];
     //inspiré du script de Bernard Langellier http://bernard.langellier.pagesperso-orange.fr/tracer-courbe.htm
@@ -341,7 +370,7 @@ function tracerFonction(fonction) {
  * @param color string rgb color
  * @param text string to write in the rectangle
  */
-function fillTextRect(x, y, color, text) {
+ function fillTextRect(x, y, color, text) {
     ctx.font = "italic " + FONTSIZE + "px serif";
     ctx.fillStyle = "rgb(255,255,255)";
     ctx.fillRect(x, y, RECTW, RECTH);
