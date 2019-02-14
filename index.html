@@ -1,21 +1,24 @@
 <!Doctype html>
 <html lang='fr'>
-    <head>
-        <meta charset="utf-8">
-        <meta name="description" content="Représentation graphique de fonctions mathématiques">
-        <meta name="keywords" content="Maths, Fonctions, Tracer, Courbes, Droites">
-        <meta name="author" content="Alicia Malacarne">
-        <title>MathGraphs</title>
-        <link rel="icon" href="amproginfologo.png" type="image/png">
-        <link href="mathGraphs.css" rel="stylesheet" type="text/css">
-    </head>
-    <body>
-        <div id='global'>
-            <h1>MathGraphs</h1>
-            <h2>Représentation de fonctions mathématiques</h2>
-            <div id="contenu">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Représentation graphique de fonctions mathématiques">
+    <meta name="keywords" content="Maths, Fonctions, Tracer, Courbes, Droites">
+    <meta name="author" content="Alicia Malacarne">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>MathGraphs</title>
+    <link rel="icon" href="amproginfologo.png" type="image/png">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="mathGraphs.css" type="text/css">
+</head>
+<body>
+    <div id='global'>
+        <h1>MathGraphs</h1>
+        <h2>Représentation de fonctions mathématiques</h2>
+        <div id="contenu">
 
-                <section id="section_form">
+            <section id="section_form">
+                <div class="defFonction">
                     <h2>Définissez votre fonction</h2>
                     <div class="btFunction">
                         <button type="button" value="0">0</button>
@@ -36,6 +39,7 @@
                         <button type="button" value=")">)</button>
                         <button type="button" value="x">x</button>
                         <button type="button" value="sqrt">&radic;(x)</button>
+                        <button type="button" value="cbrt"><sup>3</sup>&radic;(x)</button>
                         <button type="button" value="exp">e<sup>x</sup></button>
                         <button type="button" value="log">ln(x)</button>
                         <button type="button" value="log1p">ln(1+x)</button>
@@ -49,27 +53,36 @@
                     <div class="form_box">
                         <form id="form" >
                             <label for="fonction">Fonction</label>
-                            <input id="fonction" name="fonction" type="text" readonly="readonly">
+                            <input id="fonction" name="fonction" type="text" readonly="readonly">  
                             <label for="nom">Nom</label>
-                            <input id="nom" name="nom" type="text">
-                            <label for="couleur">Couleur</label>
-                            <input id="couleur" name="couleur" type="color">	
-                        </form>
-                        <input id="draw" type="button" value="Tracer" >
-                        <input id="add" type="button" value="Nouvelle fonction" >
-                        <input id="reset" type="button" value="Effacer Tout" >
-                        <input id="save" type="button" value="Enregistrer" >
-                    </div>
-                    <div id="liste_fonctions">
-                        <h2>S&eacute;lectionnez la fonction &agrave; suivre</h2>
+                            <input id="nom" list="fonctions" name="nom" type="text">
+                            <datalist id="fonctions">
+                                <option value="f">
+                                    <option value="g">
+                                        <option value="h">
+                                            <option value="u">
+                                                <option value="v">
+                                                </datalist>
+                                                <label for="couleur">Couleur</label>
+                                                <input id="couleur" name="couleur" type="color">	
+                                            </form>
+                                            <button id="draw" type="button"><i class="fas fa-pen"></i>&nbsp;Tracer</button>
+                                            <button id="add" type="button"><i class="fas fa-plus"></i>&nbsp;Nouvelle fonction</button>
+                                            <button id="reset" type="button"><i class="fas fa-eraser"></i>&nbsp;Effacer Tout</button>
+                                            <button id="save" type="button"><i class="far fa-save"></i>&nbsp;Enregistrer</button>
+                                        </div>
+                                    </div>
+                                    <div id="liste_fonctions">
+                                        <h2>S&eacute;lectionnez la fonction &agrave; suivre</h2>
 
-                    </div>
-                </section>
-                <canvas id="canvas" width="800" height="800"></canvas>
-            </div>
-        </div>
-        <script src="definedFunctions.js" type="text/javascript"></script>
-        <script src="scriptMathGraphs.js" type="text/javascript"></script>
-    </body>
+                                    </div>
+                                </section>
+                                <canvas id="canvas" width="800" height="800"></canvas>
+                            </div>
+                            <footer>MathGraphs - Alicia Malacarne - 2019</footer>
+                        </div>
+                        <script src="definedFunctions.js" type="text/javascript"></script>
+                        <script src="scriptMathGraphs.js" type="text/javascript"></script>
+                    </body>
 
-</html>
+                    </html>
