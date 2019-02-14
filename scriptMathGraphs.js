@@ -14,8 +14,8 @@ function Point(x, y) {
 }
 
 function Repere(context, xo, yo) {
-    this.w = context.canvas.width;
-    this.h = context.canvas.height;
+    this.w = context.canvas.clientWidth;
+    this.h = context.canvas.clientHeight;
 
     this.xo = xo;
     this.yo = yo;
@@ -108,7 +108,9 @@ var callback = function (e) {
 //canvas
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
-var repere = new Repere(ctx, ctx.canvas.width / 2, ctx.canvas.height / 2);
+//change the scale of the context according to the width and height of the canvas
+ctx.scale(canvas.width/canvas.clientWidth,canvas.height/canvas.clientHeight);
+var repere = new Repere(ctx, ctx.canvas.clientWidth / 2, ctx.canvas.clientHeight / 2);
 
 tracerRepere();
 
